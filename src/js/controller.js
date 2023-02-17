@@ -1,6 +1,7 @@
 import "core-js/stable";
 import "regenerator-runtime";
 import * as model from "./model.js";
+import paginationView from "./views/paginationView.js";
 import recipeView from "./views/recipeView.js";
 import resultsView from "./views/resultsView.js";
 import searchView from "./views/searchView.js";
@@ -25,6 +26,7 @@ const controlSearchResults = async function () {
     resultsView.renderSpinner();
     await model.loadSearchResults(queryString);
     resultsView.render(model.getSearchResults(2));
+    paginationView.render(model.stateObj.searchState);
   } catch (error) {
     console.log(error);
     recipeView.renderError(`Could not load your Search Results 😥`);
@@ -37,4 +39,3 @@ function init() {
 }
 
 init();
-controlSearchResults();
