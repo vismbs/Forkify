@@ -1,42 +1,18 @@
 import icons from "../../img/icons.svg";
 import { Fraction } from "fractional";
+import View from "./View";
 
-class RecipeView {
-  #parentElement = document.querySelector(".recipe");
-  #dataVar;
-  render(stateVar) {
-    this.#dataVar = stateVar;
-    const markUp = this.#generateMarkup();
-    this.#parentElement.innerHTML = "";
-    this.#parentElement.insertAdjacentHTML("afterbegin", markUp);
-  }
+class RecipeView extends View {
+  _parentElement = document.querySelector(".recipe");
 
-  renderSpinner() {
-    const markUp = `
-        <div class="spinner">
-          <svg>
-          <use href="${icons}#icon-loader"></use>
-          </svg>
-        </div>
-      `;
-    this.#parentElement.innerHTML = "";
-    this.#parentElement.insertAdjacentHTML("afterbegin", markUp);
-  }
-
-  addHelperRender(handlerFunc) {
-    ["hashchange", "load"].forEach((eventVar) =>
-      window.addEventListener(eventVar, handlerFunc)
-    );
-  }
-
-  #generateMarkup() {
+  _generateMarkup() {
     return `
       <figure class="recipe__fig">
-        <img src="${this.#dataVar.image_url}" alt="${
-      this.#dataVar.title
+        <img src="${this._dataVar.image_url}" alt="${
+      this._dataVar.title
     }" class="recipe__img" />
         <h1 class="recipe__title">
-          <span>${this.#dataVar.title}</span>
+          <span>${this._dataVar.title}</span>
         </h1>
       </figure>
 
@@ -46,7 +22,7 @@ class RecipeView {
             <use href="${icons}#icon-clock"></use>
           </svg>
           <span class="recipe__info-data recipe__info-data--minutes">${
-            this.#dataVar.cooking_time
+            this._dataVar.cooking_time
           }</span>
           <span class="recipe__info-text">minutes</span>
         </div>
@@ -72,9 +48,6 @@ class RecipeView {
         </div>
 
         <div class="recipe__user-generated">
-          <svg>
-            <use href="${icons}#icon-user"></use>
-          </svg>
         </div>
         <button class="btn--round">
           <svg class="">
@@ -86,7 +59,7 @@ class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          ${this.#dataVar.ingredients
+          ${this._dataVar.ingredients
             .map((ing) => {
               return `
             <li class="recipe__ingredient">
@@ -111,13 +84,13 @@ class RecipeView {
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
           <span class="recipe__publisher">${
-            this.#dataVar.publisher
+            this._dataVar.publisher
           }</span>. Please check out
           directions at their website.
         </p>
         <a
           class="btn--small recipe__btn"
-          href="${this.#dataVar.source_url}"
+          href="${this._dataVar.source_url}"
           target="_blank"
         >
           <span>Directions</span>
