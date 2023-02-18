@@ -14,6 +14,7 @@ const controlRecipe = async function () {
     if (!idVar) return;
     recipeView.renderSpinner();
     await model.loadRecipe(idVar);
+    resultsView.render(model.getSearchResults());
     recipeView.render(model.stateObj.recipeState);
   } catch (error) {
     recipeView.renderError(`Could not load your Recipe 😥`);
@@ -33,6 +34,11 @@ const controlSearchResults = async function () {
   }
 };
 
+const controlServings = function (valueVar) {
+  model.updateServings(valueVar);
+  recipeView.update(model.stateObj.recipeState);
+};
+
 const paginationControl = function (goToPage) {
   try {
     model.stateObj.searchState.pageNumber = goToPage;
@@ -49,6 +55,7 @@ function init() {
   recipeView.addHelperRender(controlRecipe);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(paginationControl);
+  recipeView.addHelperUpdateServings(controlServings);
 }
 
 init();
