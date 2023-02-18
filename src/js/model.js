@@ -8,7 +8,7 @@ export const stateObj = {
     queryString: "",
     resultArr: [],
     resultPerPage: RESULTS_PP,
-    pageNumber: 1,
+    pageNumber: 2,
   },
 };
 
@@ -34,9 +34,7 @@ export const loadSearchResults = async function (queryString) {
   }
 };
 
-export const getSearchResults = function (
-  pageNumber = stateObj.searchState.pageNumber
-) {
+export const getSearchResults = function (pageNumber = 1) {
   stateObj.searchState.pageNumber = pageNumber;
   const startIndex = (pageNumber - 1) * stateObj.searchState.resultPerPage;
   const endIndex = pageNumber * stateObj.searchState.resultPerPage;
