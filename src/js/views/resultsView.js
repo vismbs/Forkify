@@ -1,31 +1,14 @@
 import View from "./View";
 import icons from "../../img/icons.svg";
+import preView from "./preView";
 
 class ResultsView extends View {
   _parentElement = document.querySelector(".results");
-  _dataVar;
   _errMsg = "No recipes matching your query. Please try again 😥";
   _generateMarkup() {
-    return this._dataVar.map(this._generateMarkupPreview).join("");
-  }
-  _generateMarkupPreview(recVar) {
-    return `
-    <li class="preview">
-       <a class="preview__link ${
-         recVar.id == window.location.hash.slice(1)
-           ? "preview__link--active"
-           : ""
-       }" href="#${recVar.id}">
-          <figure class="preview__fig">
-                <img src="${recVar.image_url}" alt="Test" />
-          </figure>
-          <div class="preview__data">
-            <h4 class="preview__title">${recVar.title}</h4>
-            <p class="preview__publisher">${recVar.publisher}</p>
-          </div>
-      </a>
-    </li>
-    `;
+    return this._dataVar
+      .map((resultVar) => preView.render(resultVar, false))
+      .join("");
   }
 }
 

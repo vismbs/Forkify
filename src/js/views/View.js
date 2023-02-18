@@ -1,9 +1,8 @@
 import icons from "../../img/icons.svg";
 
 export default class View {
-  _dataVar;
   _errMsg = "Could Not Find your Recipe 😥";
-  render(stateVar) {
+  render(stateVar, renBool = true) {
     this._dataVar = stateVar;
     if (
       !this._dataVar ||
@@ -12,6 +11,7 @@ export default class View {
       return this.renderError(this._errMsg);
 
     const markUp = this._generateMarkup();
+    if (!renBool) return markUp;
     this._parentElement.innerHTML = "";
     this._parentElement.insertAdjacentHTML("afterbegin", markUp);
   }
@@ -28,7 +28,7 @@ export default class View {
     this._parentElement.insertAdjacentHTML("afterbegin", markUp);
   }
 
-  renderError() {
+  renderError(msgStr = "") {
     const markUp = `
     <div class="error">
       <div>
@@ -42,7 +42,7 @@ export default class View {
     this._parentElement.insertAdjacentHTML("afterbegin", markUp);
   }
 
-  renderError(msgStr = "") {
+  renderMessage(msgStr = "") {
     const markUp = `
     <div class="message">
       <div>
@@ -57,8 +57,6 @@ export default class View {
   }
 
   update(stateVar) {
-    if (!stateVar || (Array.isArray(stateVar) && stateVar.length === 0))
-      return this.renderError();
     this._dataVar = stateVar;
 
     const newMarkup = this._generateMarkup();
@@ -70,7 +68,7 @@ export default class View {
       const curEl = oldElements[iVar];
       if (
         !elemEl.isEqualNode(curEl) &&
-        elemEl.firstChild.nodeValue.trim() !== ""
+        elemEl.firstChild?.nodeValue.trim() !== ""
       ) {
         curEl.textContent = elemEl.textContent;
       }
